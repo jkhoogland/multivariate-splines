@@ -86,12 +86,19 @@ set(SRC_LIST
     src/mykroneckerproduct.cpp
 )
 
+set(TEST_SRC_LIST
+test/test_runner.cpp
+test/datatable.cpp
+test/testingutilities.cpp
+)
+
 set(SHARED_LIBRARY multivariate-splines-${MULTIVARIATESPLINES_VERSION})
 set(STATIC_LIBRARY multivariate-splines-static-${MULTIVARIATESPLINES_VERSION})
 
 set(SHARED_LIBRARY_TEST "multivariate-splines-shared-test")
 set(STATIC_LIBRARY_TEST "multivariate-splines-static-test")
 set(SERIALIZE_TEST "multivariate-splines-serialize-test")
+set(CATCH_TEST "test")
 set(TESTING_UTILITIES ${CMAKE_CURRENT_SOURCE_DIR}/test/testingutilities.cpp)
 
 # Add output library: add_library(libname [SHARED | STATIC] sourcelist)
@@ -107,6 +114,10 @@ target_link_libraries(${STATIC_LIBRARY_TEST} ${STATIC_LIBRARY})
 # Serialize testing executable
 add_executable(${SERIALIZE_TEST} ${CMAKE_CURRENT_SOURCE_DIR}/test/serialize.cpp ${TESTING_UTILITIES})
 target_link_libraries(${SERIALIZE_TEST} ${STATIC_LIBRARY})
+
+# Catch executable
+add_executable(${CATCH_TEST} ${TEST_SRC_LIST})
+target_link_libraries(${CATCH_TEST} ${STATIC_LIBRARY})
 
 # Install the header files
 install(
@@ -124,6 +135,7 @@ install(
     TARGETS ${STATIC_LIBRARY}
     DESTINATION ${LIBRARY_DIRECTORY}
 )
+
 
 # Used to debug warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
